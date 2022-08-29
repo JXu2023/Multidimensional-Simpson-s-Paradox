@@ -181,11 +181,9 @@ public class MDSP
                                      long c2S = c2L + (s << move[j]);
                                      Long c2SW = new Long(c2S);
                                      
-                                     if(!map.containsKey(c1SW)){
+                                     if(!map.containsKey(c1SW) || !map.containsKey(c2SW)){
                                          stillTrue = false;
-                                     }
-                                     if(!map.containsKey(c2SW)){
-                                         stillTrue = false;
+                                         break;
                                      }
                                      double c1STotRate = getRate(map, c1SW);
                                      double c2STotRate = getRate(map, c2SW);

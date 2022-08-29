@@ -1,6 +1,6 @@
 # Multidimensional-Simpson-s-Paradox
 Algorithms used to find Simpson's Paradox in multidimensional data sets.
-First, enter the file path of the dataset and how many attributes there are.
+First, enter the file path of the dataset, how many attributes there are, and whether or not to find strong paradoxes.
 Second, use createIndex() to assign indexes to each value.
 Next, use getMover() to get how many bits each attribute needs to move.
 Then use aggregate() (Algorithm 2) to collect all statistics.

@@ -10,8 +10,9 @@ import java.io.*;
 public class MDSP
 {
     public static final int size = 8; // number of attributes
-    public static final String filename = "loan.csv";
+    public static final String filename = "adult.csv";
     public static final boolean strong = true;
+    public static long time = System.currentTimeMillis();
     public static int counter;
     /**
      * Creates the indexes for each value in each attribute.
@@ -67,7 +68,7 @@ public class MDSP
         File file = new File(filename); // a multidimensional data set T
         Scanner scan = new Scanner(file);
         boolean firstLine = true;
-         HashMap<String, Integer> agg = new HashMap<String, Integer>(); 
+         HashMap<String, Long> agg = new HashMap<String, Long>(); 
          //for each unique record t = (x1,..., xn, y) in T
        while(scan.hasNextLine()){ 
            // count the number of its duplicates in T
@@ -77,17 +78,22 @@ public class MDSP
                 firstLine = false;
                 continue;
             }
+            int Y = Integer.parseInt(line.substring(line.length() -1));
+            line = line.substring(0,line.length() -1);
+            
+            
             if(!agg.containsKey(line)){
-                agg.put(line, 0);
+                agg.put(line, new Long(0));
             }
-            agg.put(line, agg.get(line) + 1);
+            
+            agg.put(line, new Long(agg.get(line).longValue() + ((long)1 << 32 ) + Y));
             
         }
+        System.out.println(agg.size());
         // for each unique record t = (x1,..., xn, y) in T
         for(String line: agg.keySet()){ 
             String vals[] = line.split(",", 0);
             long[] indexes = new long[size]; 
-            int Y = Integer.parseInt(vals[size]) * agg.get(line);
             
             for(int i = 0; i < size; i++){
                 String key = vals[i] + " " + i;
@@ -109,8 +115,7 @@ public class MDSP
                 // Update counters of the statistics 
                 Long l2 = map.get(l1);
                 long l3 = l2.longValue(); // the total and count of the ancestor, first 32 bits are total, second 32 are count
-                l3 += ( (long)agg.get(line) << 32);
-                l3 += Y;
+                l3 += agg.get(line).longValue();
                 map.put(l1, l3); 
                 }
         }   
@@ -235,8 +240,13 @@ public class MDSP
         createIndex(indexHolder, lengths);
         int[] move = getMover(lengths);
         HashMap<Long,Long> aggregations = new HashMap<>();
+        //System.out.println(System.currentTimeMillis() - time);
         aggregate(move, indexHolder, aggregations);
+        //System.out.println(System.currentTimeMillis() - time);
+        
         findSP(aggregations, move, lengths);
+        //System.out.println(System.currentTimeMillis() - time);
+        
         System.out.println(counter);
     }
   

@@ -52,6 +52,18 @@ public class ParadoxList
              return count;
     }
     /**
+     * gets an array of the number of paradoxes per dimension
+     */
+    public int[] getAllDimensions(){
+        int[] arr = new int[size];
+        for(int i = 0; i < list.size(); i++){
+            arr[this.getDimension(i)]++;
+        }
+        
+        
+        return arr;
+    }
+    /**
      * gets the cardinality of the separator at the given index
      */
     public int getSeparator(int a){
@@ -136,6 +148,7 @@ public class ParadoxList
         for(Long agg: aggregations.keySet()){
             int[] values = new int[size];
             int counter = 0;
+            int count = 0;
             long l1 = agg.longValue();
             for(int i  = 0; i < size - 1; i++){
                  for(int j = bitMove[i]; j < bitMove[i+1]; j++){
@@ -143,9 +156,13 @@ public class ParadoxList
                      if((l2 & l1) == l2){
                          
                          values[i] = (int)(l1/((long) 1 << bitMove[i])) % lengths[i];
+                         count++;
                           break;   
                      }
                  }
+             }
+             if(count < size){
+                 continue;
              }
             for(int i = 0; i < Math.pow(2, size); i++){
                 long l = 0;
@@ -158,7 +175,7 @@ public class ParadoxList
                 }
                 Long aa = new Long(l);
                 if(contributions.containsKey(aa)){
-                    counter += contributions.get(aa);
+                    counter += contributions.get(aa) * (aggregations.get(aa).longValue() >> 32);
                 }
                 
             }
@@ -166,6 +183,7 @@ public class ParadoxList
             list1.add(counter);
             
         }
+        Collections.sort(list1);
         
         
         

@@ -65,6 +65,28 @@ public class ParadoxList
         return arr;
     }
     /**
+     * prints the number of paradoxes per dimension to a .csv file
+     */
+    public void dimensionsToCSV(String filename){
+        filename = filename +".csv";
+        int[] arr = getAllDimensions();
+        try{
+            FileWriter writer = new FileWriter(filename);
+            for(int i = 0; i< size; i++){
+                writer.write(i+","+ arr[i] +"\n");
+                
+            }
+            writer.close(); 
+        
+        
+        
+        
+        } catch(IOException e){
+        System.out.println("An error occurred.");
+          e.printStackTrace();
+        }
+    }
+    /**
      * gets the cardinality of the separator at the given index
      */
     public int getSeparator(int a){
@@ -154,7 +176,7 @@ public class ParadoxList
     public void populationToCSV(String filename, int bucketSize, int bucketNum){
         HashMap<Integer,Integer> hm = populationDistribution(bucketSize, bucketNum);
         try{
-            FileWriter writer = new FileWriter(filename);
+            FileWriter writer = new FileWriter((filename+".csv"));
             for(int i = 0; i <= bucketSize * (bucketNum + 1); i += bucketSize){
                 if(hm.containsKey(i)){
                     writer.write(i + "," +  hm.get(i) +"\n");
@@ -247,7 +269,7 @@ public class ParadoxList
         List<Integer> con = getContributions();
         
         try{
-            FileWriter writer = new FileWriter(filename);
+            FileWriter writer = new FileWriter(filename+".csv");
             for(int i = 0; i < con.size(); i+= div){
                 writer.write(i +"," + con.get(i) +" \n");
             }

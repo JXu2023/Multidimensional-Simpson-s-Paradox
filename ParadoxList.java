@@ -1,4 +1,5 @@
 import java.util.*;
+import java.io.*;
 /**
  * ParadoxList class to run experiments on paradoxes.
  *
@@ -94,6 +95,29 @@ public class ParadoxList
         return hm;
     }
     /**
+     * prints the separators to a csv file.
+     */
+    public void separatorToCSV(String filename){
+        filename = filename +".csv";
+        HashMap<Integer, Integer> hm = getAllSeparators();
+        try{
+            FileWriter writer = new FileWriter(filename);
+            for(Integer i: hm.keySet()){
+                writer.write(i+","+ hm.get(i) +"\n");
+                
+            }
+            writer.close(); 
+        
+        
+        
+        
+        } catch(IOException e){
+        System.out.println("An error occurred.");
+          e.printStackTrace();
+        }
+    }
+    
+    /**
      * gets the total population of the two siblings
      */
     public long getPopulation(int a){
@@ -123,6 +147,30 @@ public class ParadoxList
             }
         }
         return hm;
+    }
+    /**
+     * prints the population distribution to a CSV file
+     */
+    public void populationToCSV(String filename, int bucketSize, int bucketNum){
+        HashMap<Integer,Integer> hm = populationDistribution(bucketSize, bucketNum);
+        try{
+            FileWriter writer = new FileWriter(filename);
+            for(int i = 0; i <= bucketSize * (bucketNum + 1); i += bucketSize){
+                if(hm.containsKey(i)){
+                    writer.write(i + "," +  hm.get(i) +"\n");
+                }else{
+                    writer.write(i + "," + 0 + "\n");
+                }
+            }
+            writer.close(); 
+        
+        
+        
+        
+        } catch(IOException e){
+        System.out.println("An error occurred.");
+          e.printStackTrace();
+        }
     }
     /**
      * returns a list of the total number of paradoxes a record contributes to
@@ -175,13 +223,15 @@ public class ParadoxList
                 }
                 Long aa = new Long(l);
                 if(contributions.containsKey(aa)){
-                    counter += contributions.get(aa) * (aggregations.get(aa).longValue() >> 32);
+                    counter += contributions.get(aa);
                 }
                 
             }
+            for(long asd = 0; asd <  (aggregations.get(agg).longValue() >> 32); asd++){
+                
             
             list1.add(counter);
-            
+        }
         }
         Collections.sort(list1);
         
@@ -189,5 +239,26 @@ public class ParadoxList
         
         
         return list1;
+    }
+    /**
+     * writes the contributions of each record to a csv file
+     */
+    public void contributionsToCSV(String filename, int div){
+        List<Integer> con = getContributions();
+        
+        try{
+            FileWriter writer = new FileWriter(filename);
+            for(int i = 0; i < con.size(); i+= div){
+                writer.write(i +"," + con.get(i) +" \n");
+            }
+            writer.close(); 
+        
+        
+        
+        
+        } catch(IOException e){
+        System.out.println("An error occurred.");
+          e.printStackTrace();
+        }
     }
 }

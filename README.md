@@ -12,7 +12,10 @@ The data sets are Adult (https://archive.ics.uci.edu/ml/datasets/adult), Loan(ht
 
 The experiments are performed using the ParadoxList Class.
 First, pass all of the statistics of the dataset. 
-Use getContributions() to get a list of how many paradoxes each record contributed to.
-Use getAllSeparators() to get a map of cardinality and the corresponding number of paradoxes.
-Use getAllDimensions() to get an array of how many paradoxes per dimension.
-Use populationDistribution() and pass the size of the bucket and how many buckets to get a hashmap of the population distribution.
+Use getContributions() to get a list of how many paradoxes each record contributed to. Use contributionsToCSV() to get a .csv file with the results.
+
+Use getAllSeparators() to get a map of cardinality and the corresponding number of paradoxes. Use separatorToCSV() to get a .csv file with the results.
+
+Use getAllDimensions() to get an array of how many paradoxes per dimension.Use dimensionsToCSV() to get a .csv file with the results.
+
+Use populationDistribution() and pass the size of the bucket and how many buckets to get a hashmap of the population distribution. Use populationToCSV() to get a .csv file with the results.
